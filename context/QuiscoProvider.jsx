@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect, createContext } from 'react'
-
+import { toast } from 'react-toastify'
 
 const QuiscoContext = createContext()
 
@@ -43,13 +43,14 @@ const QuiscoProvider = ({ children }) => {
     const handleAgregarPedido = ({ categoriaId, image, ...producto }) => {
         if (pedido.some(productostate => productostate.id === producto.id)) {
             //Actualizar la cantidad
-
             const pedidoActualizado = pedido.map(productoState => productoState.id === producto.id ? producto : productoState)
             console.log(pedidoActualizado)
+            toast.success('Guardado correctamente')
         } else {
             setPedido([...pedido, producto])
+            toast.success('Agregado al pedido')
         }
-
+        setModal(false)
 
     }
     return (
