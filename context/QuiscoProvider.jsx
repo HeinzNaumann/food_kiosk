@@ -11,6 +11,7 @@ const QuiscoProvider = ({ children }) => {
     const [categoriaActual, setCategoriaActual] = useState({})
     const [producto, setProducto] = useState({})
     const [modal, setModal] = useState(false)
+    const [pedido, setPedido] = useState([])
     const obtenerCategorias = async () => {
 
         const { data } = await axios('/api/categorias')
@@ -38,8 +39,21 @@ const QuiscoProvider = ({ children }) => {
     const handleChangeModal = () => {
         setModal(!modal)
     }
+
+    const handleAgregarPedido = ({ categoriaId, image, ...producto }) => {
+        if (pedido.some(productostate => productostate.id === producto.id)) {
+            //Actualizar la cantidad
+
+            const pedidoActualizado = pedido.map(productoState => productoState.id === producto.id ? producto : productoState)
+            console.log(pedidoActualizado)
+        } else {
+            setPedido([...pedido, producto])
+        }
+
+
+    }
     return (
-        <QuiscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, producto, handleSetProducto, modal, handleChangeModal }}>
+        <QuiscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, producto, handleSetProducto, modal, handleChangeModal, handleAgregarPedido, pedido }}>
             {children}
 
 
